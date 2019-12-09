@@ -10,7 +10,7 @@ The default HRV indices are meanRR, STD, CV, Poincare, Periodogram.
 You may add more index by modifying the file processfile.m. 
 
 The output is a mat file contain all setting and hrv results as well as R time and RR interval .
-The results can be used for further study (for example, HRV vs a diseases).
+The results can be used for further study (for example, HRV vs diseases).
 
 
 
