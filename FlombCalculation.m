@@ -1,4 +1,4 @@
-function [Flomb f A]=FlombCalculation(RR_time,RR_interval,TF,HF,LF)
+function [Flomb f P]=FlombCalculation(RR_time,RR_interval,TF,HF,LF)
 %%
 % input 
 % RR_time =time when beat2beat occur
@@ -21,44 +21,46 @@ X=(RR_time);
 Y=(RR_interval);
 X=X-min(X);
 [WK1 WK2]=FASPER(X,Y);
-f=WK1;A=WK2;
+f=WK1;P=WK2;
 
 % plot(f,(A/sum(A)));
 % con=input('con?');
 
-LFsection = A((f>LF(1)) & ((f<LF(2))));
-HFsection = A((f>HF(1)) & ((f<HF(2))));
-TFsection = A((f>=TF(1)) & ((f<TF(2))));
-if ~isempty(LFsection)
-%     LFP=max(LFsection)/(sum(A)); 
-    LFP=sum(LFsection)/sum(A);
-%     LFP=sum(LFsection)/sum(A)/range(A);
+PVLF = P((f>=0) & ((f<LF(1))));
+PLF = P((f>LF(1)) & ((f<LF(2))));
+PHF = P((f>HF(1)) & ((f<HF(2))));
+PTF = P((f>=TF(1)) & ((f<TF(2))));
+if ~isempty(PLF)
+    LFP=sum(PLF);
+    LFnu=sum(PLF)/(sum(P)-sum(PVLF))*100;
 else
     LFP = -Inf;
+    LFnu = -Inf;
 end
 
-if ~isempty(HFsection)
-%     HFP=max(HFsection)/(sum(A)); 
-    HFP=sum(HFsection)/sum(A);
-%     HFP=sum(HFsection)/sum(A)/range(A);
+if ~isempty(PHF) 
+    HFP=sum(PHF);
+    HFnu=sum(PHF)/(sum(P)-sum(PVLF))*100;
 else
     HFP = -Inf;
+    HFnu = -Inf;
 end
 
-if ~isempty(TFsection)
-%     TFP=max(TFsection)/(sum(A)); 
-    TFP=sum(TFsection)/sum(A);
-%     TFP=sum(TFsection)/sum(A)/range(A);
+if ~isempty(PTF)
+    TFP=sum(PTF);
 else
     TFP = -Inf;
 end
-
-
 LHR=LFP./HFP;
+
 Flomb.LFP=LFP;
 Flomb.HFP=HFP;
-Flomb.TFP=TFP;
 Flomb.LHR=LHR;
+Flomb.LFnu=LFnu;
+Flomb.HFnu=HFnu;
+
+Flomb.TFP=TFP;
+
 
 end
 

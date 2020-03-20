@@ -22,7 +22,7 @@ function varargout = Setting(varargin)
 
 % Edit the above text to modify the response to help Setting
 
-% Last Modified by GUIDE v2.5 24-Jul-2014 12:48:39
+% Last Modified by GUIDE v2.5 21-Jan-2020 15:44:04
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -83,9 +83,9 @@ handles.artifact=handles.set.preprocess.artifact;
     handles.maxdhr=handles.param.preprocess.maxdhr;
     
 
-handles.mnn=handles.set.hrv.mnn;
-handles.sdnn=handles.set.hrv.sdnn;
-handles.cv=handles.set.hrv.cv;
+handles.stat=handles.set.hrv.stat;
+handles.geo=handles.set.hrv.geo;
+
 handles.poincare=handles.set.hrv.poincare;
     handles.pctau=handles.param.hrv.pctau;
 
@@ -183,9 +183,9 @@ set(handles.ECGchnumbox,'string',handles.chnum);
         set(handles.maxdHRbox,'enable','off');
     end
 
-    set(handles.mnncheck,'value',handles.mnn);
-    set(handles.sdnncheck,'value',handles.sdnn);
-    set(handles.cvcheck,'value',handles.cv);
+    set(handles.statcheck,'value',handles.stat);
+    set(handles.geocheck,'value',handles.geo);
+    
     set(handles.poincarecheck,'value',handles.poincare);
     set(handles.delaybox,'string',num2str(handles.pctau));
     
@@ -245,9 +245,9 @@ set(handles.epochpopup,'enable','off');
 set(handles.epochbox,'enable','off');
 
 
-set(handles.mnncheck,'enable','off');
-set(handles.sdnncheck,'enable','off');
-set(handles.cvcheck,'enable','off');
+set(handles.statcheck,'enable','off');
+set(handles.geocheck,'enable','off');
+
 set(handles.poincarecheck,'enable','off');
     set(handles.delaypopup,'enable','off');
     set(handles.delaybox,'enable','off');
@@ -347,22 +347,17 @@ function foldertab_Callback(hObject, eventdata, handles)
 handles.outPath=get(hObject,'String');
 guidata(hObject, handles);
 
-% --- Executes on button press in mnncheck.
+% --- Executes on button press in statcheck.
 
-function mnncheck_Callback(hObject, eventdata, handles)
-handles.mnn=get(hObject,'Value');
+function statcheck_Callback(hObject, eventdata, handles)
+handles.stat=get(hObject,'Value');
 guidata(hObject, handles);
 
 
-% --- Executes on button press in sdnncheck.
-function sdnncheck_Callback(hObject, eventdata, handles)
-handles.sdnn=get(hObject,'Value');
-guidata(hObject, handles);
 
-
-% --- Executes on button press in cvcheck.
-function cvcheck_Callback(hObject, eventdata, handles)
-handles.cv=get(hObject,'Value');
+% --- Executes on button press in geocheck.
+function geocheck_Callback(hObject, eventdata, handles)
+handles.geo=get(hObject,'Value');
 guidata(hObject, handles);
 
 
@@ -420,9 +415,9 @@ handles.artifact = 0;
     handles.minhr=40;
     handles.maxdhr = 20;
 
-handles.mnn=1;
-handles.sdnn=1;
-handles.cv=1;
+handles.stat=1;
+handles.geo=1;
+
 handles.poincare=1;
     handles.pctau=1;
 handles.lomb=1;
@@ -988,9 +983,9 @@ handles.set.preprocess.artifact = handles.artifact;
     handles.param.preprocess.minhr=handles.minhr;
     handles.param.preprocess.maxdhr = handles.maxdhr;
 
-handles.set.hrv.mnn=handles.mnn;
-handles.set.hrv.sdnn=handles.sdnn;
-handles.set.hrv.cv=handles.cv;
+handles.set.hrv.stat=handles.stat;
+handles.set.hrv.geo=handles.geo;
+
 handles.set.hrv.poincare=handles.poincare;
     if isnan(handles.pctau) || handles.pctau<=0 || mod(handles.pctau,1)~=0
        errordlg('Poincare delay must be a positive integer','Input error','replace'); 
@@ -1042,18 +1037,18 @@ handles.set.hrv.lomb=handles.lomb;
     handles.param.hrv.lowerHF=handles.lowerHF;
     handles.param.hrv.higherHF=handles.higherHF;
 
-if ~handles.mnn && ~handles.sdnn && ~handles.cv && ~handles.poincare && ~handles.lomb
+if ~handles.stat && ~handles.geo && ~handles.poincare && ~handles.lomb
     errordlg('Please select at least one HRV method','Input error','replace');
-    set(handles.mnncheck,'ForegroundColor',[1 0 0]);
-    set(handles.sdnncheck,'ForegroundColor',[1 0 0]);
-    set(handles.cvcheck,'ForegroundColor',[1 0 0]);
+    set(handles.statcheck,'ForegroundColor',[1 0 0]);
+    set(handles.geocheck,'ForegroundColor',[1 0 0]);
+
     set(handles.poincarecheck,'ForegroundColor',[1 0 0]);
     set(handles.lombcheck,'ForegroundColor',[1 0 0]);
     handles.IPerror=1; return;
 end
-set(handles.mnncheck,'ForegroundColor',[0 0 0]);
-set(handles.sdnncheck,'ForegroundColor',[0 0 0]);
-set(handles.cvcheck,'ForegroundColor',[0 0 0]);
+set(handles.statcheck,'ForegroundColor',[0 0 0]);
+set(handles.geocheck,'ForegroundColor',[0 0 0]);
+
 set(handles.poincarecheck,'ForegroundColor',[0 0 0]);
 set(handles.lombcheck,'ForegroundColor',[0 0 0]);    
     

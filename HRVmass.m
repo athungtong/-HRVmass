@@ -97,9 +97,9 @@ handles.set.save.savetxt=0;
 handles.set.save.showlog=0;
 handles.isoverwrite=1;
 
-handles.set.hrv.mnn=1;
-handles.set.hrv.sdnn=1;
-handles.set.hrv.cv=1;
+handles.set.hrv.stat=1;
+handles.set.hrv.geo=1;
+
 handles.set.hrv.poincare=1;
 handles.set.hrv.lomb=1;
 
